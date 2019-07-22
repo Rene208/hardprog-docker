@@ -1,45 +1,7 @@
-FROM debian:stretch
-
-LABEL maintainer="Andre Ippisch <ippisch@cs.uni-duesseldorf.de>"
-LABEL authors="Andre Ippisch <ippisch@cs.uni-duesseldorf.de>"
-
-RUN apt-get -qq update \
- && apt-get -yqq install \
-        autoconf \
-        automake \
-        bison \
-        build-essential \
-        check \
-        cmake \
-        cvs \
-        electric-fence \
-        flex \
-        g++ \
-        gcc \
-        gcc-multilib \
-        gdb \
-        git \
-        indent \
-        libaio1 \
-        libc6-dev \
-        ltrace \
-        make \
-        manpages-dev \
-        nano \
-        nasm \
-        pkg-config \
-        rcs \
-        screen \
-        strace \
-        valgrind \
-        unzip \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-COPY alias.sh /alias.sh
-RUN bash -x /alias.sh \
- && rm /alias.sh
-
-WORKDIR /data
-
-CMD ["bash"]
+docker build -t hardprog-image
+docker run -it -v "$PWD":/data -w /data hardprog-image
+docker run -it -v <path/to/workdir>:/data -w /data hardprog-image
+-u $(id -u):$(id -g)
+docker run -it -u $(id -u):$(id -g) -v "$PWD":/data -w /data hardprog-image
+--cap-add=SYS_PTRACE --security-opt seccomp=unconfined
+alias hardprog='path/to/run.sh'
